@@ -54,7 +54,7 @@ Venta.init(
 
 class Detalle_Ventas extends Model {}
 
-Detalle_Ventas.init({
+Detalle_Ventas.init({ 
     id:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -88,6 +88,16 @@ Detalle_Ventas.init({
     total:{
         type: DataTypes.FLOAT,
         allowNull: false,
+    },
+    descuento: {  // nuevo campo para el descuento
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        defaultValue: 0.0,
+        validate: {
+            min: 0,
+            max: 100,
+            isDecimal: true,
+        }
     }
 },{
     sequelize,
@@ -95,6 +105,7 @@ Detalle_Ventas.init({
     tableName: "detalle_ventas",
     modelName: "Detalle_Ventas",
 });
+
 
 Venta.hasMany(Detalle_Ventas, { foreignKey: 'venta_id', as: 'detalles' });
 Detalle_Ventas.belongsTo(Venta, { foreignKey: 'venta_id', as: 'venta' });
