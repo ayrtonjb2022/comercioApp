@@ -65,7 +65,8 @@ async function createVenta(req, res) {
                     producto_id: item.producto_id,
                     cantidad: item.cantidad,
                     precio_unitario: item.precio_unitario,
-                    total: item.total
+                    total: item.total,
+                    descuento: item.descuento,
                 },
                 { transaction: t }
             );
