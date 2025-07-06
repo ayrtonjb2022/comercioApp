@@ -72,9 +72,7 @@ async function createVenta(req, res) {
             );
         }
 
-        // Actualizar el saldo de la caja
-        caja.totalFinal += total;
-        await caja.save({ transaction: t });
+        
 
         await t.commit();
         res.status(201).json({ message: 'Venta registrada correctamente', ventaId: venta.id });
