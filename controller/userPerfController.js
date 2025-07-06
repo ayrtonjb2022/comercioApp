@@ -5,10 +5,8 @@ import User from "../models/user.js";
 export const getUserData = async (req, res) => {
     try {
         const userId = req.user?.id;
-        console.log(userId,"ff");
         
         const user = await User.findByPk(userId)
-        console.log("user", user);
         
         if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
         res.json({nombre:user.nombre, apellido:user.apellido, email:user.email});

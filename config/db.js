@@ -9,5 +9,12 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialectModule: mysql2,
     logging: false
 });
+// const sequelize = new Sequelize("kiosco2", "root", "", {
+//     host: "localhost",
+//     dialect: 'mysql',
+//     dialectModule: mysql2,
+//     logging: false
+// });
+//lo ocupo si tengo que configurar algo localmente
 
 export default sequelize;

@@ -6,7 +6,6 @@ import cajaRouter from './routers/cajaRouter.js';
 import productoRouter from './routers/productoRouter.js';
 import movimientoRouter from './routers/movimientoRouter.js';
 import dataUs from './routers/dataUsRouter.js';
-
 import ventasRouter from './routers/ventasRouter.js';
 import sequelize from './config/db.js';
 
@@ -14,26 +13,42 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://comercioappf.onrender.com'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `El CORS policy no permite el acceso desde el origen ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
+
+
 app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api', cajaRouter);
 app.use('/api', productoRouter);
 app.use('/api', movimientoRouter);
-
 app.use('/api', ventasRouter);
 app.use('/api', dataUs);
 
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    sequelize.sync({ force: false })
-        .then(() => {
-            console.log('Database synced');
-        })
-        .catch((err) => {
-            console.error('Unable to sync database:', err);
-        });
+  console.log(`Server running on port ${PORT}`);
+  sequelize.sync({ force: false })
+    .then(() => {
+      console.log('Database synced');
+    })
+    .catch((err) => {
+      console.error('Unable to sync database:', err);
+    });
 });
