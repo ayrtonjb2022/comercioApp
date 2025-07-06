@@ -95,7 +95,7 @@ async function createMovimiento(req, res) {
             }, {
                 where: { usuarioId: userId, id: Number(cajaId) }
             });
-        }else{
+        }else if(tipo == "gasto"){
             const response = await Caja.update({
                 totalFinal: Number(montoAct - monto)
             }, {
