@@ -23,7 +23,7 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) === -1) {
       const msg = `El CORS policy no permite el acceso desde el origen ${origin}`;
@@ -34,6 +34,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Ruta base para testeo
+app.get('/', (req, res) => {
+  res.send('✅ Backend funcionando correctamente');
+});
 
 // Rutas
 app.use('/api/auth', authRouter);
@@ -64,12 +69,19 @@ const startServer = async () => {
 
 startServer();
 
-// Opcional: mantener la conexión activa cada 5 minutos
+// 🔄 Ping periódico para mantener activa la base de datos
 setInterval(async () => {
   try {
+    await sequelize.authenticate();
     await sequelize.query('SELECT 1');
-    console.log('🔄 Ping a la DB');
+    console.log('🔄 Ping a la DB OK');
   } catch (err) {
-    console.error('Error al hacer ping a la DB:', err.message);
+    console.error('❌ Error al hacer ping a la DB:', err.message);
   }
-}, 5 * 60 * 1000); // cada 5 minutos
+}, 5 * 60 * 1000); // Cada 5 minutos
+
+// 🧱 Manejo global de errores no controlados
+process.on('unhandledRejection', (err) => {
+  console.error('🔴 Error no manejado (unhandledRejection):', err.message);
+  process.exit(1); // Render reiniciará el proceso si se detiene
+});
