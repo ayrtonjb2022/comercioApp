@@ -13,7 +13,7 @@ const authMiddleware = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretkey');
 
-        // ✅ CORREGIDO: Usar 'where' y 'id' (no '_id')
+        //
         const user = await User.findOne({ where: { id: decoded.id, email: decoded.email } });
 
         if (!user) {

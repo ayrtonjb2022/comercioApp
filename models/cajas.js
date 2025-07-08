@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db.js';
-import User from './user.js'; // Asegúrate de que la ruta sea correcta
+import User from './user.js'; 
 
 class Caja extends Model {}
 
@@ -29,7 +29,6 @@ Caja.init({
     updatedAt: 'actualizadoEl',
 });
 
-// Asociación (opcional, pero recomendable)
 Caja.belongsTo(User, { foreignKey: 'usuarioId', as: 'usuario' });
 
 export default Caja;

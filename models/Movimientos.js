@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/db.js'; // Ajusta la ruta según tu estructura
-import User from './user.js'; // Ajusta la ruta según tu estructura
-import Caja from './cajas.js'; // Ajusta la ruta según tu estructura
+import sequelize from '../config/db.js';
+import User from './user.js'; 
+import Caja from './cajas.js';
 
 class Movimientos extends Model {}
 

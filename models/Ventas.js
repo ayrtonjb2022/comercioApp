@@ -111,7 +111,7 @@ Venta.hasMany(Detalle_Ventas, { foreignKey: 'venta_id', as: 'detalles' });
 Detalle_Ventas.belongsTo(Venta, { foreignKey: 'venta_id', as: 'venta' });
 Detalle_Ventas.belongsTo(Producto, {
   as: 'productos',
-  foreignKey: 'producto_id' // ✔ este sí existe
+  foreignKey: 'producto_id'
 });
 
 
