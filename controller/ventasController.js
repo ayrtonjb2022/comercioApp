@@ -37,12 +37,12 @@ async function getVentasByUser(req, res) {
 
 
 
-/** Crear una nueva venta con sus detalles y actualizar caja */
+/** Crear una nueva venta con sus detalles y actualizar caja y stock */
 async function createVenta(req, res) {
     const t = await Venta.sequelize.transaction();
     try {
         const usuarioId = req.user.id;
-        const { fecha, total, cajaId, detalles,medio_pago } = req.body;
+        const { fecha, total, cajaId, detalles, medio_pago } = req.body;
 
         // Verificar si la caja existe
         const caja = await Caja.findByPk(cajaId, { transaction: t });
@@ -51,14 +51,35 @@ async function createVenta(req, res) {
             return res.status(404).json({ message: 'Caja no encontrada' });
         }
 
-        // Crear venta
+        // Crear la venta
         const venta = await Venta.create(
-            { fecha, total, usuarioId, cajaId,medio_pago },
+            { fecha, total, usuarioId, cajaId, medio_pago },
             { transaction: t }
         );
 
-        // Crear los detalles de la venta
+        // Crear los detalles de la venta y actualizar stock
         for (const item of detalles) {
+            // Buscar el producto correspondiente
+            const producto = await Producto.findByPk(item.producto_id, { transaction: t });
+            if (!producto) {
+                await t.rollback();
+                return res.status(404).json({ message: `Producto con ID ${item.producto_id} no encontrado` });
+            }
+
+            // Verificar si hay suficiente stock
+            if (producto.cantidad < item.cantidad) {
+                await t.rollback();
+                return res.status(400).json({
+                    message: `Stock insuficiente para el producto ${producto.nombre}`,
+                    stock_actual: producto.cantidad
+                });
+            }
+
+            // Actualizar stock del producto (restar cantidad vendida)
+            producto.cantidad -= item.cantidad;
+            await producto.save({ transaction: t });
+
+            // Crear el detalle de la venta
             await Detalle_Ventas.create(
                 {
                     venta_id: venta.id,
@@ -72,15 +93,16 @@ async function createVenta(req, res) {
             );
         }
 
-        
-
+        // Confirmar transacción
         await t.commit();
         res.status(201).json({ message: 'Venta registrada correctamente', ventaId: venta.id });
     } catch (error) {
         await t.rollback();
+        console.error(error);
         res.status(500).json({ message: 'Error al registrar la venta', error });
     }
 }
+
 
 /** Actualizar una venta */
 async function updateVenta(req, res) {
