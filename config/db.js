@@ -1,4 +1,4 @@
-// config/db.js
+// config/db.js - VERSIÓN MÍNIMA CORREGIDA
 import { Sequelize } from 'sequelize';
 import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
@@ -14,12 +14,20 @@ const sequelize = new Sequelize(
     dialect: 'mysql',
     dialectModule: mysql2,
     logging: false,
+    
+    // SOLO LO ESENCIAL PARA RESOLVER TU PROBLEMA
     pool: {
-      max: 5,
-      min: 0,
+      max: 10,
+      min: 2,          // Mantener al menos 2 conexiones abiertas
       acquire: 30000,
-      idle: 10000,
-    }
+      idle: 300000,    // 5 minutos (antes era 10000 = 10 segundos)
+    },
+    
+    // SOLO OPCIONES VÁLIDAS
+    dialectOptions: {
+      connectTimeout: 60000,
+      decimalNumbers: true,
+    },
   }
 );
 

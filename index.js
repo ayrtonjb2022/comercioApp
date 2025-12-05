@@ -9,6 +9,7 @@ import productoRouter from './routers/productoRouter.js';
 import movimientoRouter from './routers/movimientoRouter.js';
 import dataUs from './routers/dataUsRouter.js';
 import ventasRouter from './routers/ventasRouter.js';
+import healthRouter from './routers/health.js';
 
 import sequelize from './config/db.js';
 
@@ -42,6 +43,7 @@ app.use('/api', productoRouter);
 app.use('/api', movimientoRouter);
 app.use('/api', ventasRouter);
 app.use('/api', dataUs);
+app.use('/api/health', healthRouter);
 
 const PORT = process.env.PORT || 4000;
 
