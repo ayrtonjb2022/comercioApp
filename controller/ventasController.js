@@ -21,7 +21,7 @@ async function getVentasByUser(req, res) {
             {
               model: Producto,
               as: 'productos', // alias para evitar ambigüedades
-              attributes: ['id', 'nombre', 'precioCompra', 'precioVenta']
+              attributes: ['id', 'nombre', 'precioCompra', 'precioVenta', 'categoria']
             }
           ]
         }
