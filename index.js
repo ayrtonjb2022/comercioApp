@@ -13,6 +13,7 @@ import healthRouter from './routers/health.js';
 import Categoria from './routers/categoriaRouter.js';
 
 import sequelize from './config/db.js';
+import './models/index.js';  
 
 dotenv.config();
 
