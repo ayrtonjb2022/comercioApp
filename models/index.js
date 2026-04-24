@@ -16,10 +16,10 @@ User.hasMany(Producto, {
   as: 'productos' 
 });
 
-// Producto - Categoría (as: 'categoriaRel' para evitar conflicto)
+// Producto - Categoría
 Producto.belongsTo(Categoria, { 
   foreignKey: 'categoriaId', 
-  as: 'categoriaRel'  // CAMBIO: nombre diferente
+  as: 'categoriaRel'
 });
 
 Categoria.hasMany(Producto, { 
@@ -49,10 +49,10 @@ Subcategoria.belongsTo(Categoria, {
   as: 'categoria' 
 });
 
-// Categoría - Usuario
+// Categoría - Usuario (alias cambiado)
 Categoria.belongsTo(User, { 
   foreignKey: 'userId', 
-  as: 'usuario' 
+  as: 'categoria_usuario'   // 👈 NUEVO ALIAS ÚNICO
 });
 
 User.hasMany(Categoria, { 
