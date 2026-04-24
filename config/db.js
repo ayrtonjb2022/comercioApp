@@ -1,4 +1,4 @@
-// config/db.js - VERSIÓN MÍNIMA CORREGIDA
+// config/db.js
 import { Sequelize } from 'sequelize';
 import mysql2 from 'mysql2';
 import dotenv from 'dotenv';
@@ -14,19 +14,22 @@ const sequelize = new Sequelize(
     dialect: 'mysql',
     dialectModule: mysql2,
     logging: false,
-    
-    // SOLO LO ESENCIAL PARA RESOLVER TU PROBLEMA
+
+    // ZONA HORARIA DE ARGENTINA – SOLUCIÓN PRINCIPAL
+    timezone: 'America/Argentina/Buenos_Aires',
+
     pool: {
       max: 10,
-      min: 2,          // Mantener al menos 2 conexiones abiertas
+      min: 2,
       acquire: 30000,
-      idle: 300000,    // 5 minutos (antes era 10000 = 10 segundos)
+      idle: 300000,
     },
-    
-    // SOLO OPCIONES VÁLIDAS
+
     dialectOptions: {
       connectTimeout: 60000,
       decimalNumbers: true,
+      // Opcional: también forzar la zona horaria en la conexión MySQL (por si acaso)
+      // timezone: 'America/Argentina/Buenos_Aires',
     },
   }
 );

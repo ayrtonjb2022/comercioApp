@@ -10,6 +10,7 @@ import movimientoRouter from './routers/movimientoRouter.js';
 import dataUs from './routers/dataUsRouter.js';
 import ventasRouter from './routers/ventasRouter.js';
 import healthRouter from './routers/health.js';
+import Categoria from './routers/categoriaRouter.js';
 
 import sequelize from './config/db.js';
 
@@ -44,6 +45,7 @@ app.use('/api', movimientoRouter);
 app.use('/api', ventasRouter);
 app.use('/api', dataUs);
 app.use('/api/health', healthRouter);
+app.use("/api", Categoria);
 
 const PORT = process.env.PORT || 4000;
 
