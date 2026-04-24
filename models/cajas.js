@@ -29,6 +29,6 @@ Caja.init({
     updatedAt: 'actualizadoEl',
 });
 
-Caja.belongsTo(User, { foreignKey: 'usuarioId', as: 'usuario' });
+Caja.belongsTo(User, { foreignKey: 'usuarioId', as: 'caja_usuario' });
 
 export default Caja;

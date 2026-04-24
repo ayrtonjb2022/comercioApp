@@ -55,7 +55,7 @@ Movimientos.init(
 );
 
 // Relaciones
-Movimientos.belongsTo(User, { foreignKey: 'usuarioId', as: 'usuario' });
+Movimientos.belongsTo(User, { foreignKey: 'usuarioId', as: 'movimiento_usuario' });
 Movimientos.belongsTo(Caja, { foreignKey: 'cajaId', as: 'caja' });
 
 export default Movimientos;
